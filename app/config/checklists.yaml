@@ -1,0 +1,59 @@
+# Checklist definitions per application category.
+# Each entry: required_documents (list of doc-type keys), required_fields,
+# and validity rules (max_age_days for docs that must be "recent").
+categories:
+  New Course/Intake Increase:
+    required_documents:
+      - Affidavit/Undertaking
+      - Fire NOC
+      - Land/Building document
+      - Previous EoA letter
+      - TER payment receipt
+      - Faculty list
+    required_fields: [institution_name, aicte_id, programme, intake]
+    validity:
+      Fire NOC: { max_age_days: 365 }
+      Previous EoA letter: { must_be_unexpired: true }
+
+  Renewal of EoA:
+    required_documents:
+      - Affidavit/Undertaking
+      - NBA/NAAC accreditation certificate
+      - Fire NOC
+      - Land/Building document
+      - Previous EoA letter
+      - TER payment receipt
+      - Faculty list
+    required_fields: [institution_name, aicte_id, previous_eoa_ref]
+    validity:
+      NBA/NAAC accreditation certificate: { must_be_unexpired: true }
+      Fire NOC: { max_age_days: 365 }
+      Previous EoA letter: { must_be_unexpired: true }
+
+  Change of Name/Society:
+    required_documents:
+      - Affidavit/Undertaking
+      - Land/Building document
+      - Previous EoA letter
+    required_fields: [institution_name, aicte_id, new_name]
+    validity:
+      Previous EoA letter: { must_be_unexpired: true }
+
+  Closure of Course:
+    required_documents:
+      - Affidavit/Undertaking
+      - Previous EoA letter
+      - Faculty list
+    required_fields: [institution_name, aicte_id, programme]
+    validity:
+      Previous EoA letter: { must_be_unexpired: true }
+
+# Canonical document-type keys (used by the classifier)
+document_types:
+  - Affidavit/Undertaking
+  - NBA/NAAC accreditation certificate
+  - Fire NOC
+  - Land/Building document
+  - Previous EoA letter
+  - TER payment receipt
+  - Faculty list

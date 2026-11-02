@@ -1,0 +1,83 @@
+# All thresholds and weights live here. Values marked illustrative must be
+# replaced by the actual Approval Process Handbook norms in production.
+
+disclaimer: "AI output is decision support only; final decisions rest with AICTE authorities."
+
+risk_weights:
+  checklist_missing: 8
+  checklist_incomplete: 5
+  checklist_expired: 12
+  crosscheck_mismatch: 15
+  crosscheck_intake_exceeded: 20
+  crosscheck_ter_unpaid: 18
+  crosscheck_faculty_below_norm: 10
+  duplicate_document: 25
+  pdf_metadata_anomaly: 10
+  identifier_mismatch: 12
+  date_logic_violation: 14
+  ela_high: 20
+  ela_medium: 8
+  compliance_area_gap: 10
+  photo_quality: 3
+
+risk_severity_thresholds:   # risk_score -> overall severity band
+  low: 15
+  medium: 40
+  high: 70
+
+document_classifier:
+  min_confidence: 0.30
+  keywords:
+    Affidavit/Undertaking: ["affidavit", "undertaking", "solemnly affirm", "deponent"]
+    NBA/NAAC accreditation certificate: ["national board of accreditation", "nba", "naac", "accreditation"]
+    Fire NOC: ["fire", "no objection certificate", "fire safety", "noc"]
+    Land/Building document: ["land", "building", "sale deed", "lease deed", "floor plan", "survey no"]
+    Previous EoA letter: ["extension of approval", "eoa", "aicte letter"]
+    TER payment receipt: ["transaction", "receipt", "payment", "ter", "remittance"]
+    Faculty list: ["faculty", "designation", "qualification", "teaching staff"]
+
+identifier_regexes:
+  aicte_id: '\b[A-Z]{2}\d{6,8}\b'
+  cert_number:
+    nba: '^NBA/[A-Z]{2}/\d{4}/\d{3,5}$'
+    naac: '^NAAC/[A-Z]/\d{4}/\d{2,4}$'
+    fire: '^FIRE/[A-Z]{2}/\d{4}/\d{3,5}$'
+    land: '^LAND/[A-Z]{2}/\d{4}/\d{3,5}$'
+
+date_logic:
+  max_future_days: 0          # issue date must not be in the future
+  max_validity_years: 10      # anything longer looks suspicious
+  min_validity_days: 1
+
+pdf_metadata:
+  producer_modifier_mismatch: true
+  edited_after_creation_hours: 24
+
+ela:
+  scale: 15
+  high_score: 45
+  medium_score: 25
+
+compliance:  # illustrative values - replace with Approval Process Handbook
+  min_area_sqm_per_intake: 10.0
+  min_labs_per_programme: 2
+  min_library_area_sqm: 150.0
+  faculty_student_ratio: 0.0667   # 1 faculty per 15 students
+  max_faculty_below_norm_pct: 10
+
+photo_check:
+  blur_laplacian_threshold: 90.0
+  min_dimension_px: 480
+  min_mean_brightness: 45.0
+
+source_verification:
+  mock_latency_min_s: 0.3
+  mock_latency_max_s: 1.2
+  unavailable_probability: 0.10
+  retry_count: 1
+
+alerts:
+  expiring_within_days: 30
+
+retention:
+  days: 365   # configurable data-retention window
